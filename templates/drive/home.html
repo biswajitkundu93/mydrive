@@ -1,0 +1,18 @@
+{% extends 'layout/main.html' %}
+{% load static %}
+
+{% block title %}
+Home
+{% endblock %}
+
+{% block angulercontroller %}
+<script src="{% static 'angular/controllers/drive/homeController.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+
+<div ng-app='mainApp' ng-controller="homeController" ng-init="init()">
+    <h2>Home</h2>
+</div>
+
+{% endblock %}
