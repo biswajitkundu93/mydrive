@@ -1,12 +1,21 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-warning">
-    <a class="navbar-brand text-dark" href="#">MY DRIVE</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-  
-    <div class="collapse navbar-collapse d-flex flex-row-reverse" id="navbarSupportedContent">
-      <div class="form-inline my-2 my-lg-0">
-        <button class="btn btn-outline-dark my-2 my-sm-0" type="button">SIGN IN</button>
-      </div>
-    </div>
-  </nav>
+  <a class="navbar-brand text-dark" href="#">Biswajit's DRIVE</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse d-flex flex-row-reverse" id="navbarSupportedContent" >
+    <div class="form-inline my-2 my-lg-0">
+      <!-- <button class="btn btn-outline-success my-2 mx-1 my-sm-0" type="button">LOGIN</button> -->
+      <!-- <button class="btn btn-outline-dark my-2 mx-1 my-sm-0" type="button">SIGN UP</button> -->
+      <!-- <button type="button" class="btn btn-outline-dark my-2 mx-1 my-sm-0">SIGN UP</button>
+    </div> -->
+    {% if name %}
+    <button class="btn btn-outline-success my-2 mx-1 my-sm-0">{{name}}</button>
+    <!-- <button class="btn btn-outline-dark my-2 mx-1 my-sm-0" type="button">SIGN UP</button> -->
+    <button class="btn btn-outline-dark my-2 mx-1 my-sm-0">LOGOUT</button>
+    {% endif %}
+  </div>
+  </div>  
+</nav>

@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'drive.apps.DriveConfig'
+    'drive.apps.DriveConfig',
+    'drive.user.apps.UserConfig'
 ]
 
 MIDDLEWARE = [

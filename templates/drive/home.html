@@ -1,18 +1,101 @@
 {% extends 'layout/main.html' %}
 {% load static %}
-
-{% block title %}
-Home
-{% endblock %}
-
+{% block title %} Home
+{%endblock %}
 {% block angulercontroller %}
 <script src="{% static 'angular/controllers/drive/homeController.js' %}"></script>
 {% endblock %}
-
 {% block content %}
+<!-- navBar -->
+{% include '../component/nav.html' %}
 
-<div ng-app='mainApp' ng-controller="homeController" ng-init="init()">
-    <h2>Home</h2>
+<div ng-app="mainApp" ng-controller="homeController" ng-init="init()">
+  {% if not name %}
+  <section class="jumbotron text-center">
+    <div class="container">
+      <h1 class="jumbotron-heading">Welcome To Bsswajit's Drive</h1>
+      <p class="lead text-muted">This is one of the best drive in the World</p>
+      <p>
+        <button type="button" href="#" class="btn btn-warning my-2" data-toggle="modal" data-target="#loggin">LOGIN</button>
+        <!-- <a href="#" class="btn btn-dark my-2">SIGN UP</a> -->
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#registor">
+          SIGN UP
+        </button>
+      </p>
+    </div>
+  </section>
+  {% endif %}
+  <!-- Modal -->
+  <div class="modal fade" id="registor" tabindex="-1" role="dialog" aria-labelledby="registorLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="registorLabel">Register</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="row">
+              <div class="col-md-12 my-1">
+                <input type="text" class="form-control" placeholder="Enter Name" ng-model="data.form.name" />
+              </div>
+              <div class="col-md-12 my-1">
+                <input type="email" class="form-control" placeholder="Enter Email" ng-model="data.form.email" />
+              </div>
+              <div class="col-md-12 my-1">
+                <input type="password" class="form-control" placeholder="Enter Password"
+                  ng-model="data.form.password" />
+              </div>
+              <div class="col-md-12 my-1">
+                <input type="password" class="form-control" placeholder="Enter Re Enter Password"
+                  ng-model="data.form.password2" />
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="submitForm();">
+            Submit
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="loggin" tabindex="-1" role="dialog" aria-labelledby="logginLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="logginLabel">Register</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="row">
+              <div class="col-md-12 my-1">
+                <input type="text" class="form-control" placeholder="Enter Username" ng-model="data.loggin.form.username" />
+              </div>
+              <div class="col-md-12 my-1">
+                <input type="password" class="form-control" placeholder="Enter Password"
+                  ng-model="data.loggin.form.password" />
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="logginsubmitForm();">
+            Submit
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 {% endblock %}
