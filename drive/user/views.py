@@ -42,17 +42,33 @@ def login(request):
         data = json.loads(request.body)
         try:
             user= UserRegistor.objects.get(username=data["username"],password=data["password"])
-            print(user)
             request.session["username"]=user.username
             request.session["user_id"]=user.id
             user.save()
             return HttpResponse(json.dumps({"status": 1}), content_type='application/json')
         except :
-            return HttpResponse(json.dumps({"status": 0}), content_type='application/json')
+            return HttpResponse(json.dumps({"status": 0}), content_type='application/json', status=401)
     else:
-        return HttpResponse(json.dumps({"status": 0}), content_type='application/json')
+        return HttpResponse(json.dumps({"status": 0}), content_type='application/json', status=401)
 
+@csrf_exempt
 def logout(request):
-    return HttpResponse(json.dumps({"status": 0}), content_type='application/json')
-
+    if request.method == 'POST':
+        try:
+            if  request.session["username"]:
+                user= UserRegistor.objects.get(id=request.session["user_id"])
+                user.is_logging="0"
+                user.save()
+                del request.session["username"]
+                del request.session["user_id"]
+                return HttpResponse(json.dumps({"status": 1}), content_type='application/json')
+            else:
+                print("error1")
+                return HttpResponse(json.dumps({"status": 0}), content_type='application/json', status=401)
+        except Exception as e :
+            print(e)
+            return HttpResponse(json.dumps({"status": 0}), content_type='application/json', status=401)
+    else:
+        print("error2")
+        return HttpResponse(json.dumps({"status": 0}), content_type='application/json', status=401)
 

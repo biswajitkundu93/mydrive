@@ -6,10 +6,10 @@
 <script src="{% static 'angular/controllers/drive/homeController.js' %}"></script>
 {% endblock %}
 {% block content %}
-<!-- navBar -->
-{% include '../component/nav.html' %}
 
 <div ng-app="mainApp" ng-controller="homeController" ng-init="init()">
+<!-- navBar -->
+{% include '../component/nav.html' %}
   {% if not name %}
   <section class="jumbotron text-center">
     <div class="container">

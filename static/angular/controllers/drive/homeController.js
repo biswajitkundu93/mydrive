@@ -109,11 +109,11 @@ mainApp.controller("homeController",function($scope, $http){
 				data: $scope.data.loggin.form,
 				headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
 			}).then(function(success){
-				alert("success")
+				alert("Login")
 				console.log(success)
 				window.location.replace("/")
 			},function(error){
-				alert("erroe")
+				alert("error")
 				console.log(error)
 			}
 			);
@@ -121,5 +121,23 @@ mainApp.controller("homeController",function($scope, $http){
 			console.log('error')
 			// $.growl.error({ message: "Please fill the form correctly!"});
 		}
+	}
+
+
+
+	$scope.logout = function() {
+			$http({
+				method: 'POST',
+				url:'/user/logout',
+				headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
+			}).then(function(success){
+				alert("Logout")
+				console.log(success)
+				window.location.replace("/")
+			},function(error){
+				alert("error")
+				console.log(error)
+			}
+			);
 	}
 })
