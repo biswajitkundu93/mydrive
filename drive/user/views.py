@@ -4,6 +4,9 @@ from .models import *
 import json
 from Mydrive.middelware import *
 from django.views.decorators.csrf import csrf_exempt
+from django.conf import settings
+import uuid,os
+from drive.models import *
 
 # Create your views here.
 @csrf_exempt
@@ -30,6 +33,19 @@ def signup(request):
             request.session["username"]=newUser.username
             request.session["user_id"]=newUser.id
             newUser.save()
+
+            rootFolderName = newUser.name+"-"+str(uuid.uuid4())
+            rootFolderPath = settings.STATIC_PATH+"/all_folder/"+rootFolderName
+
+            os.makedirs(rootFolderPath)
+
+            newFolder=RootFolderRecord.objects.create(
+                user = newUser,
+                rootfolder=rootFolderName,
+                is_deleted=0
+            )
+            newFolder.save()
+
             return HttpResponse(json.dumps({"status": 1}), content_type='application/json')
         except Exception as e:
             return HttpResponse(json.dumps({"status": 0}), content_type='application/json', status=401)

@@ -140,4 +140,32 @@ mainApp.controller("homeController",function($scope, $http){
 			}
 			);
 	}
+
+	$scope.data.foldername="";
+	$scope.createFolder=()=>{
+		var error = 0;
+		if(!$scope.data.foldername) {
+			$scope.data.foldername = "is_invalid";
+			error++;
+		} 
+		if(error==0) {
+			$http({
+				method: 'POST',
+				url:'/create-folder',
+				data: {
+					name:$scope.data.foldername
+				},
+				headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
+			}).then(function(success){
+				alert("Folder create successfully")
+				window.location.replace("/");
+			},function(error){
+				alert("error")
+			}
+			);
+		} else {
+			console.log('error')
+			// $.growl.error({ message: "Please fill the form correctly!"});
+		}
+	}
 })
