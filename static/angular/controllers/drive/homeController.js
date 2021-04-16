@@ -1,7 +1,11 @@
 mainApp.controller("homeController",function($scope, $http){
-	$scope.data={}
+	$scope.data={
+		listData:[],
+		backList:[]
+	}
     $scope.init = function(){
         console.log("I am home")
+		$scope.openFolder(0)
     }
 
     $scope.data.form={
@@ -167,5 +171,38 @@ mainApp.controller("homeController",function($scope, $http){
 			console.log('error')
 			// $.growl.error({ message: "Please fill the form correctly!"});
 		}
+	}
+
+	$scope.openFolder=(id)=>{
+		console.log(id)
+		
+		$http({
+			method: 'POST',
+			url:'/open-folder',
+			data: {
+				id:id
+			},
+			headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
+		}).then(function(success){
+			$scope.data.listData = success.data.data.folderList
+			if (id!=0){
+				$scope.data.backList.push(id)
+			}
+			console.log($scope.data.listData)
+		},function(error){
+			alert("error")
+		}
+		);
+		 
+	}
+// back function not working properly
+
+	$scope.backFolder=()=>{
+		console.log("call back")
+		console.log($scope.data.backList)
+		id=$scope.data.backList.pop();
+		console.log($scope.data.backList)
+		console.log(id)
+		$scope.openFolder(id)
 	}
 })

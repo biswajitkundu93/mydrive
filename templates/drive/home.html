@@ -27,11 +27,8 @@
   </section>
   {% else %}
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#folder">Create Folder</button>
-    {% if folderList%}
-      {% for i in folderList%}
-        <a href="#">{{i.name}}</a>
-      {% endfor %}
-    {% endif%}
+    <button type="button" ng-click="openFolder(val.id)" ng-repeat="(key,val) in data.listData" ng-bind="val.name"></button>
+    <button type="button" class="btn btn-denger" ng-if="data.backList.length > 0" ng-click="backFolder()">Back</button>
   {% endif %}
   <!-- Modal -->
   <div class="modal fade" id="registor" tabindex="-1" role="dialog" aria-labelledby="registorLabel" aria-hidden="true">

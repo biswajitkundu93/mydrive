@@ -53,3 +53,41 @@ def createFolder(request):
     else:
         print("error")
         return HttpResponse(json.dumps({"status": 0}), content_type='application/json', status=401)
+
+@csrf_exempt
+def openFolder(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        try:
+            user= UserRegistor.objects.get(id=request.session["user_id"])
+            if int(data["id"]) >0:
+                parent = AllFolderRecord.objects.get(user=user,id=data['id'],is_deleted="0")
+                folderList = [{
+                    "id":i.id,
+                    "name":i.child
+                }for i in AllFolderRecord.objects.filter(parent=parent.child,is_deleted="0")]
+                parent_obj = {
+                    "id":parent.id,
+                    "name":parent.parent
+                }
+            else:
+                rootFolder = RootFolderRecord.objects.get(user=user,is_deleted="0")
+                folderList = [{
+                    "id":i.id,
+                    "name":i.child
+                }for i in AllFolderRecord.objects.filter(parent=rootFolder.rootfolder,is_deleted="0")]
+                parent_obj={
+                    "id":0,
+                    "name":rootFolder.rootfolder
+                }
+            data = {
+                "folderList":folderList,
+                "parent":parent_obj
+            }
+            return HttpResponse(json.dumps({"status": 1, "data":data}), content_type='application/json')
+        except Exception as e:
+            print(e)
+            return HttpResponse(json.dumps({"status": 0}), content_type='application/json', status=401)
+    else:
+        print("error")
+        return HttpResponse(json.dumps({"status": 0}), content_type='application/json', status=401)
