@@ -1,7 +1,8 @@
 mainApp.controller("homeController",function($scope, $http){
 	$scope.data={
 		listData:[],
-		backList:[]
+		backList:[],
+		parent:{}
 	}
     $scope.init = function(){
         console.log("I am home")
@@ -157,12 +158,14 @@ mainApp.controller("homeController",function($scope, $http){
 				method: 'POST',
 				url:'/create-folder',
 				data: {
-					name:$scope.data.foldername
+					name:$scope.data.foldername,
+					parent_id:$scope.data.parent.id
 				},
 				headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
 			}).then(function(success){
 				alert("Folder create successfully")
-				window.location.replace("/");
+				// window.location.replace("/");
+				$scope.openFolder($scope.data.parent.id)
 			},function(error){
 				alert("error")
 			}
@@ -174,8 +177,8 @@ mainApp.controller("homeController",function($scope, $http){
 	}
 
 	$scope.openFolder=(id)=>{
+		console.log("=====================update=======================")
 		console.log(id)
-		
 		$http({
 			method: 'POST',
 			url:'/open-folder',
@@ -184,25 +187,28 @@ mainApp.controller("homeController",function($scope, $http){
 			},
 			headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
 		}).then(function(success){
+			console.log(success.data.data)
 			$scope.data.listData = success.data.data.folderList
+			$scope.data.parent = success.data.data.parent
 			if (id!=0){
 				$scope.data.backList.push(id)
+				console.log($scope.data.backList)
 			}
-			console.log($scope.data.listData)
 		},function(error){
 			alert("error")
 		}
 		);
+		console.log("============================================")
 		 
 	}
-// back function not working properly
-
 	$scope.backFolder=()=>{
 		console.log("call back")
-		console.log($scope.data.backList)
-		id=$scope.data.backList.pop();
-		console.log($scope.data.backList)
-		console.log(id)
-		$scope.openFolder(id)
+		$scope.data.backList.pop();
+		if ($scope.data.backList.length==0){
+			$scope.openFolder(0)
+		}
+		else{
+			$scope.openFolder($scope.data.backList.pop())
+		}
 	}
 })

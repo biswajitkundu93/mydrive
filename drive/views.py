@@ -11,14 +11,8 @@ def home(request):
         if request.session.get("username",False):
             user = UserRegistor.objects.get(id=request.session["user_id"])
             user.is_logging="1"
-            rootFolder = RootFolderRecord.objects.get(user=user,is_deleted="0")
-            folderList = [{
-                "id":i.id,
-                "name":i.child
-            }for i in AllFolderRecord.objects.filter(parent=rootFolder.rootfolder,is_deleted="0")]
             data  = {
                 "name":user.name,
-                "folderList":folderList
             }
             print(data)
         return render(request, 'drive/home.html',data)
@@ -38,14 +32,24 @@ def createFolder(request):
         print(data["name"])
         try:
             user= UserRegistor.objects.get(id=request.session["user_id"])
-            parent = RootFolderRecord.objects.get(user=user,is_deleted="0")
-            newFolder = AllFolderRecord.objects.create(
-                user=user,
-                parent = parent.rootfolder,
-                child = data['name'],
-                is_deleted="0"
-            )
-            newFolder.save()
+            if int(data["parent_id"]) == 0:
+                parent = RootFolderRecord.objects.get(user=user,is_deleted="0")
+                newFolder = AllFolderRecord.objects.create(
+                    user=user,
+                    parent = parent.rootfolder,
+                    child = data['name'],
+                    is_deleted="0"
+                )
+                newFolder.save()
+            else:
+                parent = AllFolderRecord.objects.get(user=user, id=int(data["parent_id"]),is_deleted="0")
+                newFolder = AllFolderRecord.objects.create(
+                    user=user,
+                    parent = parent.child,
+                    child = data['name'],
+                    is_deleted="0"
+                )
+                newFolder.save()
             return HttpResponse(json.dumps({"status": 1}), content_type='application/json')
         except Exception as e:
             print(e)
@@ -68,7 +72,7 @@ def openFolder(request):
                 }for i in AllFolderRecord.objects.filter(parent=parent.child,is_deleted="0")]
                 parent_obj = {
                     "id":parent.id,
-                    "name":parent.parent
+                    "name":parent.child
                 }
             else:
                 rootFolder = RootFolderRecord.objects.get(user=user,is_deleted="0")
@@ -78,7 +82,7 @@ def openFolder(request):
                 }for i in AllFolderRecord.objects.filter(parent=rootFolder.rootfolder,is_deleted="0")]
                 parent_obj={
                     "id":0,
-                    "name":rootFolder.rootfolder
+                    "name":user.name
                 }
             data = {
                 "folderList":folderList,

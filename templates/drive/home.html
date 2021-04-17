@@ -27,8 +27,23 @@
   </section>
   {% else %}
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#folder">Create Folder</button>
-    <button type="button" ng-click="openFolder(val.id)" ng-repeat="(key,val) in data.listData" ng-bind="val.name"></button>
-    <button type="button" class="btn btn-denger" ng-if="data.backList.length > 0" ng-click="backFolder()">Back</button>
+    <div class="container">
+      <div class="my-4">
+        <p class="text-success" ng-bind="data.parent.name"></p>
+      </div>
+      <p>Folder List :</p>
+      <div class="row">
+        <p ng-if="data.listData.length == 0">No Folders</p>
+        <!-- <button type="button" class="col-md-2 m-2" ng-click="openFolder(val.id)" ng-repeat="(key,val) in data.listData" ng-bind="val.name"></button> -->
+        <div class="card m-3" style="width: 8rem;"  ng-click="openFolder(val.id)" ng-repeat="(key,val) in data.listData">
+          <img class="card-img-top" src="https://www.computerhope.com/jargon/f/folder.png" alt="Card image cap">
+          <div class="card-body">
+            <h5 class="card-title" ng-bind="val.name"></h5>
+          </div>
+        </div>
+      </div>
+      <button type="button" class="btn btn-danger" ng-if="data.backList.length > 0" ng-click="backFolder()">Back</button>
+    </div>
   {% endif %}
   <!-- Modal -->
   <div class="modal fade" id="registor" tabindex="-1" role="dialog" aria-labelledby="registorLabel" aria-hidden="true">
