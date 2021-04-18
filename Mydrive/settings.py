@@ -117,7 +117,7 @@ USE_L10N = True
 USE_TZ = True
 
 
-DATA_UPLOAD_MAX_MEMORY_SIZE = 5242880
+DATA_UPLOAD_MAX_MEMORY_SIZE = None
 
 
 # Static files (CSS, JavaScript, Images)

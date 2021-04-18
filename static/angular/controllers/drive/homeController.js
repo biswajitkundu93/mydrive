@@ -4,7 +4,7 @@ mainApp.controller("homeController",function($scope, $http){
 		listFileData:[],
 		backList:[],
 		parent:{},
-		file:""
+		file:null
 	}
     $scope.init = function(){
         console.log("I am home")
@@ -198,7 +198,7 @@ mainApp.controller("homeController",function($scope, $http){
 			}
 			console.log($scope.data)
 		},function(error){
-			alert("error")
+			// alert("error")
 		}
 		);
 		console.log("============================================")
@@ -217,6 +217,7 @@ mainApp.controller("homeController",function($scope, $http){
 
 
 	$scope.uploadFile=()=>{
+		console.log($scope.data.file.File)
 		var error = 0;
 		if(!$scope.data.file) {
 			$scope.data.file = "is_invalid";
@@ -234,7 +235,7 @@ mainApp.controller("homeController",function($scope, $http){
 			}).then(function(success){
 				alert("File upload Successfully")
 				console.log(success.data)
-				$scope.data.file=""
+				$scope.data.file=null
 				// window.location.replace("/");
 				$scope.openFolder($scope.data.parent.id)
 			},function(error){

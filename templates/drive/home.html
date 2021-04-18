@@ -47,7 +47,7 @@
       <div class="row">
         <p ng-if="data.listFileData.length == 0">No Folders</p>
         <div class="card m-3 border-0" style="width: 12rem;" ng-repeat="(key,val) in data.listFileData">
-          <img class="card-img-top" src="{[{val.link}]}" alt="Card image cap">
+          <img class="card-img-top" src="{[{val.link}]}" alt="Card image cap" style="height: 12rem;">
           <div class="card-body text-center">
             <h5 class="card-title" ng-bind="val.name"></h5>
           </div>

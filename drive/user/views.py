@@ -45,9 +45,11 @@ def signup(request):
                 is_deleted=0
             )
             newFolder.save()
-
+            print("Create user!")
             return HttpResponse(json.dumps({"status": 1}), content_type='application/json')
         except Exception as e:
+
+            print(e)
             return HttpResponse(json.dumps({"status": 0}), content_type='application/json', status=401)
     else:
         return HttpResponse(json.dumps({"status": 0}), content_type='application/json', status=401)
