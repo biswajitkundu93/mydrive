@@ -1,8 +1,10 @@
 mainApp.controller("homeController",function($scope, $http){
 	$scope.data={
 		listData:[],
+		listFileData:[],
 		backList:[],
-		parent:{}
+		parent:{},
+		file:""
 	}
     $scope.init = function(){
         console.log("I am home")
@@ -187,13 +189,14 @@ mainApp.controller("homeController",function($scope, $http){
 			},
 			headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
 		}).then(function(success){
-			console.log(success.data.data)
 			$scope.data.listData = success.data.data.folderList
+			$scope.data.listFileData = success.data.data.fileList
 			$scope.data.parent = success.data.data.parent
 			if (id!=0){
 				$scope.data.backList.push(id)
 				console.log($scope.data.backList)
 			}
+			console.log($scope.data)
 		},function(error){
 			alert("error")
 		}
@@ -209,6 +212,38 @@ mainApp.controller("homeController",function($scope, $http){
 		}
 		else{
 			$scope.openFolder($scope.data.backList.pop())
+		}
+	}
+
+
+	$scope.uploadFile=()=>{
+		var error = 0;
+		if(!$scope.data.file) {
+			$scope.data.file = "is_invalid";
+			error++;
+		} 
+		if(error==0) {
+			$http({
+				method: 'POST',
+				url:'/upload-file',
+				data: {
+					file:$scope.data.file,
+					parent_id:$scope.data.parent.id
+				},
+				headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
+			}).then(function(success){
+				alert("File upload Successfully")
+				console.log(success.data)
+				$scope.data.file=""
+				// window.location.replace("/");
+				$scope.openFolder($scope.data.parent.id)
+			},function(error){
+				alert("error")
+			}
+			);
+		} else {
+			console.log('error')
+			// $.growl.error({ message: "Please fill the form correctly!"});
 		}
 	}
 })

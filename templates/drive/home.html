@@ -27,6 +27,7 @@
   </section>
   {% else %}
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#folder">Create Folder</button>
+    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#file">Upload File</button>
     <div class="container">
       <div class="my-4">
         <p class="text-success" ng-bind="data.parent.name"></p>
@@ -34,10 +35,20 @@
       <p>Folder List :</p>
       <div class="row">
         <p ng-if="data.listData.length == 0">No Folders</p>
-        <!-- <button type="button" class="col-md-2 m-2" ng-click="openFolder(val.id)" ng-repeat="(key,val) in data.listData" ng-bind="val.name"></button> -->
-        <div class="card m-3" style="width: 8rem;"  ng-click="openFolder(val.id)" ng-repeat="(key,val) in data.listData">
+        <div class="card m-3 border-0" style="width: 8rem;"  ng-click="openFolder(val.id)" ng-repeat="(key,val) in data.listData">
           <img class="card-img-top" src="https://www.computerhope.com/jargon/f/folder.png" alt="Card image cap">
-          <div class="card-body">
+          <div class="card-body text-center">
+            <h5 class="card-title" ng-bind="val.name"></h5>
+          </div>
+        </div>
+      </div>
+
+      <p>File List : </p>
+      <div class="row">
+        <p ng-if="data.listFileData.length == 0">No Folders</p>
+        <div class="card m-3 border-0" style="width: 12rem;" ng-repeat="(key,val) in data.listFileData">
+          <img class="card-img-top" src="{[{val.link}]}" alt="Card image cap">
+          <div class="card-body text-center">
             <h5 class="card-title" ng-bind="val.name"></h5>
           </div>
         </div>
@@ -143,6 +154,36 @@
       </div>
     </div>
   </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="file" tabindex="-1" role="dialog" aria-labelledby="fileLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="fileLabel"> Upload File</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="row">
+              <div class="col-md-12 my-1">
+                <input type="file" class="form-control"   placeholder="Select File" fileread="data.file"/>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="uploadFile();">
+            Upload
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
 </div>
 
 {% endblock %}
